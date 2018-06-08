@@ -1459,6 +1459,143 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/getPhotoByLocation.json",
+    "title": "getPhotoByLocation",
+    "name": "getPhotoByLocation",
+    "group": "DeviceFromBServerGroup",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "deviceId",
+            "description": "<p>box id</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "leftUpLat",
+            "description": "<p>左shang的Lat</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "leftUpLong",
+            "description": "<p>左shang的Long</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "rightDownLat",
+            "description": "<p>右下的Lat</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "rightDownLong",
+            "description": "<p>右下的Long</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "AppId",
+            "description": "<p>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "TimeStamp",
+            "description": "<p>time stamp.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "accessId",
+            "description": "<p>sign in or sign back.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "cmdName",
+            "description": "<p>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "reqType",
+            "description": "<p>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "sign",
+            "description": "<p>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "userId",
+            "description": "<p>.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "{\n  \"AppId\": \"60076467277E4B1DD42F21B4DB5BD5A7\",\n  \"TimeStamp\": 1528444214616,\n  \"accessId\": \"3180518198@qq.com\",\n  \"cmdName\": \"getPhotoByLocation\",\n  \"data\": {\n    \"leftUpLat\": 31.281445559385645,\n    \"leftUpLong\": 106.93514127819026,\n    \"rightDownLat\": 12.498637493933275,\n    \"rightDownLong\": 119.76702223741616\n  },\n  \"deviceId\": \"c44eac125aaf\",\n  \"reqType\": 4,\n  \"sign\": \"fcf3123bb4e7085d1b7a8ea1a11c5eb7\",\n  \"userId\": \"3180518198@qq.com\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "info",
+            "description": "<p>Hint info.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "    HTTP/1.1 200 OK\n{\n\t\"userId\": \"3180518198@qq.com\",\n\t\"accessId\": \"3180518198@qq.com\",\n\t\"deviceId\": \"c44eac125aaf\",\n\t\"cmdName\": \"getPhotoByLocation\",\n\t\"reqType\": 4,\n\t\"code\": 1,\n\t\"info\": \"成功\",\n\t\"data\": {\n\t\t\"totalFiles\": 30,\n\t\t\"category\": \"location\",\n\t\t\"listPath\": [{\n\t\t\t\"Latitude\": 23.00394,\n\t\t\t\"Longitude\": 113.34581,\n\t\t\t\"NumFiles\": 30,\n\t\t\t\"files\": [{\n\t\t\t\t\"id\": \"3\",\n\t\t\t\t\"name\": \"IMG_20180607_135347_3.jpg\",\n\t\t\t\t\"fileMd5\": \"85CBF45CA72915D759191534C9C11D5C\",\n\t\t\t\t\"size\": \"2.56MB\",\n\t\t\t\t\"ower\": \"3180518198@qq.com\",\n\t\t\t\t\"isFile\": true,\n\t\t\t\t\"filePath\": \"\\/storage\\/hdd\\/cafari\\/photocomb\\/3180518198@qq.com\\/来自vivo_vivo Y66\\/2018-06\\/IMG_20180607_135347_3.jpg\",\n\t\t\t\t\"isPri\": true,\n\t\t\t\t\"isCollect\": false,\n\t\t\t\t\"lastModified\": 1528376029000,\n\t\t\t\t\"mime_type\": \"image\\/jpeg\",\n\t\t\t\t\"isLocated\": 1,\n\t\t\t\t\"Latitude\": 23.00394,\n\t\t\t\t\"Longitude\": 113.34581\n\t\t\t}]\n\t\t}]\n\t}\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "{\n   \"userId\": \"MYUNIONID\",\n   \"accessId\": \"\",\n   \"deviceId\": \"54c9df6653ce\",\n   \"cmdName\": \"pingDevice\",\n   \"reqType\": 4,\n   \"code\": 2001,\n   \"info\": \"无权限访问\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "src/apidoc.java",
+    "groupTitle": "DeviceFromB-Server ",
+    "groupDescription": "<p>B-Server deviceInfo etc</p>"
+  },
+  {
+    "type": "post",
     "url": "/getUserList.json",
     "title": "Get users from device",
     "name": "getUserList",

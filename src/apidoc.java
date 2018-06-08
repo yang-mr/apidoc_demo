@@ -380,6 +380,86 @@
  */
 
 /**
+ * @api {post} /getPhotoByLocation.json getPhotoByLocation 
+ * @apiName getPhotoByLocation 
+ * @apiGroup DeviceFromBServerGroup
+ * @apiUse ParamFromBServer
+ * @apiParam {String} deviceId box id
+ * @apiParam {String} leftUpLat 左shang的Lat 
+ * @apiParam {String} leftUpLong 左shang的Long 
+ * @apiParam {String} rightDownLat 右下的Lat 
+ * @apiParam {String} rightDownLong 右下的Long 
+
+ * @apiParamExample {json} Request-Example:
+     {
+       "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+       "TimeStamp": 1528444214616,
+       "accessId": "3180518198@qq.com",
+       "cmdName": "getPhotoByLocation",
+       "data": {
+         "leftUpLat": 31.281445559385645,
+         "leftUpLong": 106.93514127819026,
+         "rightDownLat": 12.498637493933275,
+         "rightDownLong": 119.76702223741616
+       },
+       "deviceId": "c44eac125aaf",
+       "reqType": 4,
+       "sign": "fcf3123bb4e7085d1b7a8ea1a11c5eb7",
+       "userId": "3180518198@qq.com"
+     }
+
+ * @apiSuccess {String} info Hint info.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+{
+	"userId": "3180518198@qq.com",
+	"accessId": "3180518198@qq.com",
+	"deviceId": "c44eac125aaf",
+	"cmdName": "getPhotoByLocation",
+	"reqType": 4,
+	"code": 1,
+	"info": "成功",
+	"data": {
+		"totalFiles": 30,
+		"category": "location",
+		"listPath": [{
+			"Latitude": 23.00394,
+			"Longitude": 113.34581,
+			"NumFiles": 30,
+			"files": [{
+				"id": "3",
+				"name": "IMG_20180607_135347_3.jpg",
+				"fileMd5": "85CBF45CA72915D759191534C9C11D5C",
+				"size": "2.56MB",
+				"ower": "3180518198@qq.com",
+				"isFile": true,
+				"filePath": "\/storage\/hdd\/cafari\/photocomb\/3180518198@qq.com\/来自vivo_vivo Y66\/2018-06\/IMG_20180607_135347_3.jpg",
+				"isPri": true,
+				"isCollect": false,
+				"lastModified": 1528376029000,
+				"mime_type": "image\/jpeg",
+				"isLocated": 1,
+				"Latitude": 23.00394,
+				"Longitude": 113.34581
+			}]
+		}]
+	}
+}
+ *
+ * @apiErrorExample Error-Response:
+    {
+       "userId": "MYUNIONID",
+       "accessId": "",
+       "deviceId": "54c9df6653ce",
+       "cmdName": "getPhotoByLocation",
+       "reqType": 4,
+       "code": 2001,
+       "info": "无权限访问"
+    }
+ */
+
+/**
  * @api {post} /pingDevice.json ping device 
  * @apiName pingDevice 
  * @apiGroup DeviceFromBServerGroup
