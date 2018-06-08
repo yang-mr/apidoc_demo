@@ -22,7 +22,7 @@
  * @apiName signIn
  * @apiGroup CentraServerGroup
  * @apiUse UserParam
-* @apiParam {String} url 此处请求地址为http://cafe03.cafari.com:8080/user/signin .
+ * @apiParam {String} url 此处请求地址为http://cafe03.cafari.com:8080/user/signin .
  * @apiParamExample {json} Request-Example:
         {
            "osType": 0,
@@ -63,9 +63,7 @@
  *
  * @apiParam {String} url 此处请求地址为http://cafe03.cafari.com:8080/user/signup .
  * @apiParam {String} firstName User optional.
- * @apiParam {String} lastName User optional.
  * @apiParam {String} cellPhone User optional.
- * @apiParam {String} lastName User optional.
  * @apiParam {String} lastName User optional.
  * @apiUse UserParam
  *
@@ -112,6 +110,256 @@
        }
  */
 
+/**
+ * @api {post} user/getnatinfo getnatinfo获取net info  
+ * @apiName getnatinfo 
+ * @apiGroup CentraServerGroup
+ *
+ * @apiParam {String} url (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/getnatinfo .成功返回202 并且带code
+如果是400 并且告知incomplete request就是请求不完整缺了什么东西
+401 是用户不存在 或者用户没有logged in
+建议直接说用户未登录, 因为这里主要是查用户有没有login时cacahe的token 没有就说明是没有login, 当然用户不存在的话也是没有login了
+ *
+ * @apiParamExample {json} Request-Example:
+     {
+      "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+      "TimeStamp": 1528440103202,
+      "accessId": "3180518198@qq.com",
+      "cmdName": "getnetinfo",
+      "deviceId": "c44eac125aaf",
+      "reqType": 4,
+      "sign": "6ff3bde4c181c982d5eb84cbceb7356f",
+      "userId": "3180518198@qq.com"
+    }
+ *    
+ * @apiSuccess {String} accessId Users unique.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ {
+	"deviceId": "c44eac125aaf",
+	"lastHeartbeat": "2018-06-08T07:22:37.861Z",
+	"internalIp": "192.168.50.228",
+	"realIp": "113.66.229.63",
+	"sslPort": "54396"
+ }
+ */
+
+/**
+ * @api {post} user/invite invite user  
+ * @apiName invite 
+ * @apiGroup CentraServerGroup
+ * @apiParam {String} url (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/invite 干嘛的？
+拥有者用该接口生成邀请码(有效期一个小时)，新用户绑定盒子可以通过询问拥有者邀请码；
+怎么用？（userId:你想要邀请的新用户的userId(用户注册的手机或者邮箱))
+(针对拥有者）
+
+ (post)url:http://cafe03.cafari.com/user/invite/
+ 请求body:
+ │ {
+ │   "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+ │   "TimeStamp": 1523438017926,
+ │   "accessId": "3180518198@qq.com",
+ │   "cmdName": "invite",
+ │   "deviceId": "c44eac125aa4",
+ │   "reqType": 4,
+ │   "sign": "35db33295801f6a0df24ede6a8e1692b",
+ │   "targetId": "2225544@qq.com",
+ │   "token": "Ov3Lf2zWjTpVZxvUWxxLHA==",
+ │   "userId": "3180518198@qq.com"
+ │ }
+ └────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ │ HttpBus$1.onSuccess  (HttpBus.java:163)
+ │    HttpBus$1.onSuccess  (HttpBus.java:208)
+ ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+ │ 响应body:
+ └────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ │ HttpBus$1.onSuccess  (HttpBus.java:163)
+ │    HttpBus$1.onSuccess  (HttpBus.java:209)
+ ├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+ │ {
+ │   "invitation": "511547"
+ │ }
+ └──
+(针对新用户，绑定盒子的第二种方式：通过getnatinfo接口拿到url和deviceId，这里顺带提一下第一种方式：通过蓝牙得到url和deviceId） 
+ * @apiParamExample {json} Request-Example:
+     {
+      "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+      "TimeStamp": 1528440103202,
+      "accessId": "3180518198@qq.com",
+      "cmdName": "getnetinfo",
+      "deviceId": "c44eac125aaf",
+      "reqType": 4,
+      "sign": "6ff3bde4c181c982d5eb84cbceb7356f",
+      "userId": "3180518198@qq.com"
+    }
+ *    
+ * @apiSuccess {String} invitation User invitation.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+     {
+        "invitation": "511547"
+     }
+ */
+
+/**
+ * @api {post} user/verfication phone code  
+ * @apiName verfication 
+ * @apiGroup CentraServerGroup
+ * @apiParam {String} url (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/verfication
+ 202表示成功(但是不代表发送成功, 只是发送消息放入队列重, 如果此时他的邮箱或者电话是错误的导致信息不能送达 或者我们的发送服务器有问题, 是不会知道的, 但是app上可以认为是发送成功了)
+400 表示请求不完整
+403表示用户发送请求已经超过一天最大次数 现在是4次 之后我打算用11次(4次是为了方便测试)
+404表示表示如果是找回密码状态 用户不存在
+409表示用户如果是注册请求激活码, 用户已存在
+429表示激活码发送处于冷却(现在是60秒只能发一次, app这里已经做了限制, 服务器这里也加一层防止被攻击) 
+@apiParamExample {json} Request-Example:
+     {
+      "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+      "TimeStamp": 1528440103202,
+      "cmdName": "verfication",
+      "deviceId": "c44eac125aaf",
+      "reqType": 4,
+      "sign": "6ff3bde4c181c982d5eb84cbceb7356f",
+      "userId": "3180518198@qq.com"
+      "email": "3180518198@qq.com"
+      "phone": ""
+    }
+ *    
+ * @apiSuccess {String} invitation User invitation.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+     {
+        "ok"
+     }
+ */
+
+/**
+ * @api {get} user/keystore get user keyStore  
+ * @apiName keystore 
+ * @apiGroup CentraServerGroup
+ * @apiParam {String} description (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/keystore
+200 keystore返回成功
+400请求不完整
+401 用户没有登录(可能用户不存在)
+404 找不到记录(一斑就是用户不存在, 我可能以后会去掉这个错误吗,现在暂时留着)
+500 服务器错误
+@apiParamExample {json} Request-Example:
+    {
+      "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+      "TimeStamp": 1528440103202,
+      "cmdName": "keystore",
+      "deviceId": "c44eac125aaf",
+      "reqType": 4,
+      "sign": "6ff3bde4c181c982d5eb84cbceb7356f",
+      "userId": "3180518198@qq.com"
+    }
+ *    
+ * @apiSuccess {String} file keystore file.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+     {
+        "ok"
+     }
+ */
+
+/**
+ * @api {post} user/comment user comment 
+ * @apiName comment 
+ * @apiGroup CentraServerGroup
+ * @apiParam {String} url (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/comment
+200 意见提交成功
+401 用户没有登录或者用户不存在
+429 表示请求过于频繁 15分钟内只能发一次
+500 服务器错误
+@apiParamExample {json} Request-Example:
+     {
+      "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+      "TimeStamp": 1528440103202,
+      "cmdName": "comment",
+      "deviceId": "c44eac125aaf",
+      "reqType": 4,
+      "sign": "6ff3bde4c181c982d5eb84cbceb7356f",
+      "userId": "3180518198@qq.com"
+      "email": "3180518198@qq.com"
+      "phone": ""
+      "comment":"my name is comment"
+    }
+ *    
+ * @apiSuccess {String} comment comment.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+     {
+        "ok"
+     }
+ */
+/**
+ * @api {post} user/getbinddevice getbinddevice 
+ * @apiName getbinddevice 
+ * @apiGroup CentraServerGroup
+ * @apiParam {String} url (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/getbinddevice
+200 返回ownerdevice
+400 请求不完整
+401 没有登录或者用户不存在
+404 没有ownerdevice
+500 服务器错误
+@apiParamExample {json} Request-Example:
+{
+	"AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+	"TimeStamp": 1528442549578,
+	"accessId": "3180518198@qq.com",
+	"cmdName": "getbinddevice",
+	"deviceId": "",
+	"reqType": 4,
+	"sign": "61536adaaedfe245a7f45bb99b67f49c",
+	"token": "H8IPm7M0c8FaxYdMVvzLqA==",
+	"userId": "3180518198@qq.com"
+}
+ *    
+ * @apiSuccess {String} deviceId User bind box deviceId 
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+     {
+       {"deviceId":"c44eac125aaf"}
+     }
+ */
+
+/**
+ * @api {post} user/appinfo App update info 
+ * @apiName appinfo
+ * @apiGroup CentraServerGroup
+ * @apiParam {String} url (该字段不需要)此处请求地址为http://cafe03.cafari.com:8080/user/appinfo
+@apiParamExample {json} Request-Example:
+     {
+      "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+      "TimeStamp": 1528440103202,
+      "cmdName": "appinfo",
+      "deviceId": "c44eac125aaf",
+      "reqType": 4,
+      "sign": "6ff3bde4c181c982d5eb84cbceb7356f",
+      "userId": "3180518198@qq.com"
+    }
+ *    
+ * @apiSuccess {String} version Version num.
+ * @apiSuccess {String} updateUrl download url.
+ * @apiSuccess {String} info hite info.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+    {
+       "version": "1012",
+       "updateUrl": "http:\/\/cafe02.cafari.com:19065\/APKs\/CafeClient1012.apk",
+       "info": "undefined"
+    }
+ */
+
 
 /**
  * @apiDefine DeviceFromBServerGroup DeviceFromB-Server 
@@ -130,6 +378,56 @@
  * @apiParam {String} sign .
  * @apiParam {String} userId .
  */
+
+/**
+ * @api {post} /pingDevice.json ping device 
+ * @apiName pingDevice 
+ * @apiGroup DeviceFromBServerGroup
+ * @apiUse ParamFromBServer
+ * @apiParam {String} deviceId box id
+
+ * @apiParamExample {json} Request-Example:
+     {
+       "AppId": "60076467277E4B1DD42F21B4DB5BD5A7",
+       "TimeStamp": 1528442791398,
+       "accessId": "3180518198@qq.com",
+       "cmdName": "pingDevice",
+       "data": {
+         "deviceId": "c44eac125aaf"
+       },
+       "deviceId": "c44eac125aaf",
+       "reqType": 4,
+       "sign": "f65ee524ec475b64c08353ed164bbdd1",
+       "userId": "3180518198@qq.com"
+     }
+
+ * @apiSuccess {String} info Hint info.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+    {
+       "userId": "3180518198@qq.com",
+       "accessId": "3180518198@qq.com",
+       "deviceId": "c44eac125aaf",
+       "cmdName": "pingDevice",
+       "reqType": 4,
+       "code": 1,
+       "info": "成功",
+       "data": "Success"
+     }
+ *
+ * @apiErrorExample Error-Response:
+    {
+       "userId": "MYUNIONID",
+       "accessId": "",
+       "deviceId": "54c9df6653ce",
+       "cmdName": "pingDevice",
+       "reqType": 4,
+       "code": 2001,
+       "info": "无权限访问"
+    }
+ */
+
 
 /**
  * @api {post} /createOperateCode.json Create operate code 
